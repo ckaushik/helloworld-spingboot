@@ -7,8 +7,8 @@ before_install:
 script:
     - ./gradlew build
     - ls build/distributions
-    - mv $TRAVIS_BUILD_DIR/build/distributions/helloworld-springboot.zip $TRAVIS_BUILD_DIR/helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip
-    - aws s3 cp $TRAVIS_BUILD_DIR/helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip s3://demo-bucket-us-east-2-465010111800
+    - mv build/distributions/helloworld-spingboot.zip helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip
+    - aws s3 cp helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip s3://demo-bucket-us-east-2-465010111800
 after_success:
     - aws elasticbeanstalk create-application-version --application-name 'demo-app' --version-label "0.1.$TRAVIS_BUILD_NUMBER" --source-bundle S3Bucket="demo-bucket-us-east-2-465010111800",S3Key="helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip"
     - aws elasticbeanstalk update-environment --application-name 'demo-app' --environment-id 'e-m3rq5hmndq' --version-label "0.1.$TRAVIS_BUILD_NUMBER"
