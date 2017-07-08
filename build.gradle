@@ -8,8 +8,9 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'application'
-mainClassName = 'hello.HelloWorld'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
 
 jar {
     baseName = 'hello-world'
