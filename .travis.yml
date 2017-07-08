@@ -1,10 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
-before_install:
+install:
   - pip install awscli
 script:
   - ./gradlew build
+after_success:
   - aws s3 cp build/distributions/helloworld-springboot.zip s3://demo-bucket-us-east-2-465010111800/helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip
   - aws elasticbeanstalk create-application-version --application-name 'demo-app' --version-label '0.1.$TRAVIS_BUILD_NUMBER' --source-bundle S3Bucket="demo-bucket-us-east-2-465010111800",S3Key="helloworld-springboot-$TRAVIS_BUILD_NUMBER.zip"
   - aws elasticbeanstalk update-environment --application-name 'demo-app' --environment-id 'e-m3rq5hmndq' --version-label '0.1.$TRAVIS_BUILD_NUMBER'
